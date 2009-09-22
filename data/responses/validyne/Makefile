@@ -1,4 +1,4 @@
-
+# Makefile for Validyne weather stations
 DATADIR=../local/data/instruments/sn/validyne
 DATA=\
 VH-01.pf \

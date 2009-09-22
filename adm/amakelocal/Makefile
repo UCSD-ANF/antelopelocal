@@ -1,3 +1,2 @@
-DIRS=adm data
-
+PF=amakelocal.pf
 include $(ANTELOPEMAKE)

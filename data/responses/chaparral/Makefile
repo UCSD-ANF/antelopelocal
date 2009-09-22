@@ -1,3 +1,4 @@
+# Instrument responses for Chaparral MET stations
 
 DATADIR=../local/data/instruments/sn/chaparral
 DATA=\
@@ -13,6 +14,3 @@ DATA=\
 3670.pf
 
 include $(ANTELOPEMAKE)
-
-
-

@@ -1,3 +1,3 @@
-DIRS=adm data
+DIRS=responses
 
 include $(ANTELOPEMAKE)
