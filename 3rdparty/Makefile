@@ -1,0 +1,3 @@
+DIRS = perl
+
+include $(ANTELOPEMAKE)
