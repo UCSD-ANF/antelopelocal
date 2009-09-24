@@ -1,0 +1,53 @@
+#!/bin/bash
+
+# README
+# ./configure was ignoring XGETTEXT
+# aclocal.m4 had a rule to define XGETTEXT as ":"
+# installed csw automake to get aclocal
+# compained about missing AM_GLIB_GNU_GETTEXT
+# found /usr/share/aclocal/glib-gettext.m4 and symlinked it into /opt/csw/share/aclocal
+# re-ran aclocal
+# re-ran automake
+# re-ran autoconf
+# still no workey
+
+RRDVER="1.3.7"
+
+. ./envsetup.sh
+
+INSTALL_DIR="${ANTELOPE}/local"
+CFLAGS="-xO3 -xcode=pic13"
+LDFLAGS="-R${INSTALL_DIR}/lib -R/opt/csw/lib"
+
+export CFLAGS LDFLAGS
+export MAKE=gmake
+export GNUMAKE=gmake
+export TAR=gtar
+
+export PKG_CONFIG_PATH=/usr/lib:pkgconfig:/opt/csw/lib/pkgconfig
+#export XGETTEXT="/opt/csw/bin/gxgettext"
+#alias xgettext=gxgettext
+
+if [ -d rrdtool-${RRDVER} ] ; then 
+  rm -r rrdtool-${RRDVER}
+fi
+
+${TAR} zxf ${IGPPDISTFILES}/rrdtool-${RRDVER}.tar.gz
+
+cd rrdtool-${RRDVER}
+./configure \
+ --prefix=${INSTALL_DIR} \
+ --disable-libintl \
+ --disable-python \
+ --disable-ruby \
+ --enable-perl \
+ --enable-perl-site-install
+
+echo " ==> Fixing libtool files"
+../fixlibtool.sh .
+
+echo " ==> Building rrdtool"
+$MAKE -j all
+
+echo " ==> Installing rrdtool"
+$MAKE install

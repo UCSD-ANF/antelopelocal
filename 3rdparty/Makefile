@@ -1,3 +1,3 @@
-DIRS = perl imagemagick rrdtool
+DIRS = perl rrdtool
 
 include $(ANTELOPEMAKE)

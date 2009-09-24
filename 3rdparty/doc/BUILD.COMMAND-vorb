@@ -1,0 +1,38 @@
+#!/bin/bash
+umask 0002
+
+##
+## Set up the base environment
+##
+basepath=`dirname $0`
+
+CVSROOT=rt@epicenter.ucsd.edu:/opt/antelope/vorb_cvs
+export CVSROOT 
+
+. $basepath/envsetup.sh # This sets up path and ANTELOPE variables
+
+##
+## Set up amakelocal
+##
+amakelocal_inst=`which amakelocal`
+if [ -z amakelocal_inst ]; then
+  echo "ERROR: amakelocal not found, might need some fixup"
+else
+  cp $basepath/amakelocal.pf $ANTELOPE/data/pf/
+  amakelocal -i -p $basepath/amakelocal.pf
+  if [ $? -ne "0" ]; then
+    echo "ERROR: Amakelocal barfed for some readson." 1>&2
+    exit 1
+  fi
+fi
+
+if [ -d vorb ]; then
+        cvs update -PdA vorb
+else
+        cvs checkout vorb
+fi
+
+cd vorb
+make Include
+make 
+make install
