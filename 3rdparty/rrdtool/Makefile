@@ -24,8 +24,10 @@ $(RRD_BUILD_DIR):
 	cd $(BUILD_ROOT) && \
 	  gzip -dc ../$(RRD_SOURCE_ARCHIVE) | tar xvf -
 
-compile: $(RRD_BUILD_DIR)/makefile
+compile: configure
 	cd $(RRD_BUILD_DIR) && make
+
+configure: $(RRD_BUILD_DIR)/makefile
 
 $(RRD_BUILD_DIR)/makefile:
 	cd $(RRD_BUILD_DIR) && ./configure $(RRD_CONFIG_OPTS)
