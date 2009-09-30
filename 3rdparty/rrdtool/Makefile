@@ -7,7 +7,13 @@ RRD_VERSION=1.3.8
 RRD_SOURCE_ARCHIVE=files/rrdtool-$(RRD_VERSION).tar.gz
 BUILD_ROOT=build
 RRD_BUILD_DIR=$(BUILD_ROOT)/rrdtool-$(RRD_VERSION)
-RRD_BINDING_DIR=$(RRD_BUILD_DIR)/bindings/perl-shared
+RRD_INSTALL_DIR=${ANTELOPE}
+RRD_CONFIG_OPTS=--prefix=${RRD_INSTALL_DIR} \
+		--disable-libintl \
+		--disable-python \
+		--disable-ruby \
+		--enable-perl \
+		--enable-perl-site-install
 
 all: patch compile
 
@@ -18,26 +24,15 @@ $(RRD_BUILD_DIR):
 	cd $(BUILD_ROOT) && \
 	  gzip -dc ../$(RRD_SOURCE_ARCHIVE) | tar xvf -
 
-#patch: extract patch-makefile.pl
+compile: $(RRD_BUILD_DIR)/makefile
+	cd $(RRD_BUILD_DIR) && make
 
-#patch-makefile.pl: patch-makefile.pl.state
-
-#patch-makefile.pl.state: files/rrdtool-perl-shared-csw.diff $(RRD_BINDING_DIR)/Makefile.PL
-#	patch -i $^
-#	touch $@
-
-patch: $(RRD_BINDING_DIR)/Makefile.PL
-
-$(RRD_BINDING_DIR)/Makefile.PL: files/rrdtool-perl-shared-csw.diff $(RRD_BUILD_DIR)
-	patch -i files/rrdtool-perl-shared-csw.diff $@
-
-$(RRD_BINDING_DIR)/makefile: $(RRD_BINDING_DIR)/Makefile.PL
-	cd $(RRD_BINDING_DIR) && perl Makefile.PL
-
-compile: $(RRD_BINDING_DIR)/makefile
-	cd $(RRD_BINDING_DIR) && make
+$(RRD_BUILD_DIR)/makefile:
+	cd $(RRD_BUILD_DIR) && ./configure $(RRD_CONFIG_OPTS)
+	files/fixlibtool.sh $(RRD_BUILD_DIR)
 
 install: compile
+	cd ${RRD_BUILD_DIR} && make install
 
 clean:: 
 	rm -rf $(RRD_BUILD_DIR)
