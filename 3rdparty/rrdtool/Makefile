@@ -11,11 +11,18 @@ RRD_INSTALL_DIR=${ANTELOPE}
 RRD_CONFIG_OPTS=--prefix=${RRD_INSTALL_DIR} \
 		--disable-libintl \
 		--disable-python \
-		--disable-ruby \
+		--enable-ruby \
 		--enable-perl \
 		--enable-perl-site-install
 
-all: patch compile
+LDFLAGS ="-R/opt/csw/lib -R$(RRD_INSTALL_DIR)/lib"
+#CFLAGS = "-x03 -xcode=pic13"
+CFLAGS=""
+
+## This is needed by rrdtool's configure unfortunately, and is very solaris-specific
+PKG_CONFIG_PATH=/usr/lib/pkgconfig:/opt/csw/lib/pkgconfig
+
+all: extract configure fixlibtool compile
 
 extract: $(RRD_BUILD_DIR)
 
@@ -25,16 +32,19 @@ $(RRD_BUILD_DIR):
 	  gzip -dc ../$(RRD_SOURCE_ARCHIVE) | tar xvf -
 
 compile: configure
-	cd $(RRD_BUILD_DIR) && make
+	cd $(RRD_BUILD_DIR) && LDFLAGS=$(LDFLAGS) make
 
-configure: $(RRD_BUILD_DIR)/makefile
+configure: $(RRD_BUILD_DIR)/Makefile
 
-$(RRD_BUILD_DIR)/makefile:
-	cd $(RRD_BUILD_DIR) && ./configure $(RRD_CONFIG_OPTS)
+$(RRD_BUILD_DIR)/Makefile: $(RRD_BUILD_DIR)
+	cd $(RRD_BUILD_DIR) && LDFLAGS=$(LDFLAGS) PKG_CONFIG_PATH=${PKG_CONFIG_PATH} ./configure $(RRD_CONFIG_OPTS)
+
+# Several of the libraries shiped by OpenCSW on Solaris have libtool files distributed with them. These files break the build process on Solaris, so the fixlibtool.sh (borrowed from OpenCSW.org's GAR build tool) does a fixup on the makefiles and libtool files. Again solaris-specific, and CSW specific
+fixlibtool: configure
 	files/fixlibtool.sh $(RRD_BUILD_DIR)
 
 install: compile
-	cd ${RRD_BUILD_DIR} && make install
+	cd ${RRD_BUILD_DIR} && LDFLAGS=$(LDFLAGS) make install
 
 clean:: 
 	rm -rf $(RRD_BUILD_DIR)
