@@ -4,7 +4,7 @@
 # MACRO namespace polution for the 3rdparty tree
 # We do however borrow the DIRS make rule for making subdirectories
 #
-DIRS=adm data 3rdparty
+DIRS=imagemagick xml-libxml
 
 all install installMAN pf relink clean Include tags uninstall :: FORCED
 	@-DIRS="$(DIRS)" ;\
