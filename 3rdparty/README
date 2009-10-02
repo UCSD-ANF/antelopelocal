@@ -28,13 +28,11 @@ CSWlibxml2
 XML::libxml and XML::libxslt must be compiled by hand due to their dependencies
 on the CSW packages.
 
-# Building XML::LibXML by hand to make sure that we're linking against the CSW l
-ib s
+# Building XML::LibXML by hand to make sure that we're linking against the CSW libs
 export XMLPREFIX=/opt/csw
 export XSLTPREFIX=/opt/csw
-perl Makefile.PL LIBS='-L/opt/csw/lib -lxml2 -lm' INC='-I/opt/csw/include/libxml
-2'
-t # worked fine
+perl Makefile.PL LIBS='-L/opt/csw/lib -lxml2 -lm' INC='-I/opt/csw/include/libxml2'
+make test # worked fine
 make install
 
 # Build XML::LibXSLT
