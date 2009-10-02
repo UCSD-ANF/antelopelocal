@@ -11,6 +11,7 @@ BUILD_ROOT=build
 PKG_BUILD_DIR=$(BUILD_ROOT)/$(PKG_BUILD_DIR_PREFIX)$(PKG_VERSION)
 PKG_BINDING_DIR=$(PKG_BUILD_DIR)
 
+# This is necessary to get MakeMaker to find the "right" libexslt
 PKG_CONFIG_PATH=/opt/csw/lib/pkgconfig:/usr/lib/pkgconfig
 
 # Variables needed for compilation process
