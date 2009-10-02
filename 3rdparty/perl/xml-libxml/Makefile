@@ -29,6 +29,8 @@ $(PKG_BUILD_DIR):
 	cd $(BUILD_ROOT) && \
 	  gzip -dc ../$(PKG_SOURCE_ARCHIVE) | tar xvf -
 
+$(PKG_BINDING_DIR)/Makefile.PL: extract
+
 $(PKG_BINDING_DIR)/Makefile: $(PKG_BINDING_DIR)/Makefile.PL
 	cd $(PKG_BINDING_DIR) && XMLPREFIX=$(XMLPREFIX) XSLTPREFIX=$(XSLTPREFIX) perl Makefile.PL LIBS=$(PERLLIBS) INC=$(PERLINC)
 
