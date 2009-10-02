@@ -25,4 +25,3 @@ all install installMAN pf relink clean Include tags uninstall :: FORCED
 	done
 
 FORCED :
-	true
