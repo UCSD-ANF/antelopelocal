@@ -20,7 +20,7 @@ LDFLAGS ="-R/opt/csw/lib -R$(RRD_INSTALL_DIR)/lib"
 CFLAGS=""
 
 ## This is needed by rrdtool's configure unfortunately, and is very solaris-specific
-PKG_CONFIG_PATH=/opt/csw/lib/pkgconfig:/usr/lib/pkgconfig
+PKG_CONFIG_PATH=/usr/lib/pkgconfig:/opt/csw/lib/pkgconfig
 
 all: compile
 
