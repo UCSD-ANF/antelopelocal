@@ -50,13 +50,20 @@ fixlibtool: configure
 install : compile
 	cd ${RRD_BUILD_DIR} && LDFLAGS=$(LDFLAGS) $(MAKE) $@
 
-clean : 
-	cd ${RRD_BUILD_DIR} && LDFLAGS=$(LDFLAGS) $(MAKE) $@
+uninstall: configure
+	cd $(RRD_BUILD_DIR) && $(MAKE) $@
 
-distclean:
-	rm -rf $(RRD_BUILD_DIR)
+# Runs make clean in the build dir, useful for relinking
+archive-clean:
+	if [ -d $(RRD_BUILD_DIR) ] ; then \
+	  cd ${RRD_BUILD_DIR} && LDFLAGS=$(LDFLAGS) $(MAKE) clean ; \
+	fi
 
-relink: clean compile
+# Remove any build products
+clean:
+	@rm -rf build/rrdtool-*
+
+relink: archive-clean compile
 
 #clean:: 
 #	rm -f patch-makefile.pl.state
