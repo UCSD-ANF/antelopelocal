@@ -3,11 +3,12 @@
 # Do not include $(ANTELOPEMAKE) here
 #
 
-IM_VERSION=1.3.8
-IM_SOURCE_ARCHIVE=files/rrdtool-$(IM_VERSION).tar.gz
+IM_VERSION=6.5.2
+IM_SUBREV=10
+IM_SOURCE_ARCHIVE=files/ImageMagick-$(IM_VERSION)-$(IM_SUBREV).tar.gz
 BUILD_ROOT=build
-IM_BUILD_DIR=$(BUILD_ROOT)/rrdtool-$(IM_VERSION)
-IM_BINDING_DIR=$(IM_BUILD_DIR)/bindings/perl-shared
+IM_BUILD_DIR=$(BUILD_ROOT)/ImageMagick-$(IM_VERSION)-$(IM_SUBREV)
+IM_BINDING_DIR=$(IM_BUILD_DIR)/PerlMagick
 
 all: patch compile
 
@@ -28,8 +29,9 @@ $(IM_BUILD_DIR):
 
 patch: $(IM_BINDING_DIR)/Makefile.PL
 
-$(IM_BINDING_DIR)/Makefile.PL: files/rrdtool-perl-shared-csw.diff $(IM_BUILD_DIR)
-	patch -i files/rrdtool-perl-shared-csw.diff $@
+PATCHFILE=files/perlmagick-makefile-solaris-csw.diff
+$(IM_BINDING_DIR)/Makefile.PL: $(PATCHFILE) $(IM_BUILD_DIR)
+	patch -i $(PATCHFILE) $@
 
 $(IM_BINDING_DIR)/makefile: $(IM_BINDING_DIR)/Makefile.PL
 	cd $(IM_BINDING_DIR) && perl Makefile.PL
