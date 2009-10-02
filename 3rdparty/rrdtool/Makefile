@@ -65,8 +65,5 @@ clean:
 
 relink: archive-clean compile
 
-#clean:: 
-#	rm -f patch-makefile.pl.state
-
 .DUMMY:
 	true
