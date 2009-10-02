@@ -10,7 +10,10 @@ BUILD_ROOT=build
 IM_BUILD_DIR=$(BUILD_ROOT)/ImageMagick-$(IM_VERSION)-$(IM_SUBREV)
 IM_BINDING_DIR=$(IM_BUILD_DIR)/PerlMagick
 
-all: patch compile
+all: compile
+
+# PerlMagick is used by a bunch of contrib stuff as well as the ANF website so it should be installed when the AntelopeMake "Include" target is requested
+Include: install
 
 extract: $(IM_BUILD_DIR)
 
@@ -18,14 +21,6 @@ $(IM_BUILD_DIR):
 	@echo "Extracting $(IM_SOURCE_ARCHIVE) to build/$(IM_BUILD_DIR)"
 	cd $(BUILD_ROOT) && \
 	  gzip -dc ../$(IM_SOURCE_ARCHIVE) | tar xvf -
-
-#patch: extract patch-makefile.pl
-
-#patch-makefile.pl: patch-makefile.pl.state
-
-#patch-makefile.pl.state: files/rrdtool-perl-shared-csw.diff $(IM_BINDING_DIR)/Makefile.PL
-#	patch -i $^
-#	touch $@
 
 patch: $(IM_BINDING_DIR)/Makefile.PL
 
@@ -36,17 +31,24 @@ $(IM_BINDING_DIR)/Makefile.PL: $(PATCHFILE) $(IM_BUILD_DIR)
 $(IM_BINDING_DIR)/Makefile: $(IM_BINDING_DIR)/Makefile.PL
 	cd $(IM_BINDING_DIR) && perl Makefile.PL
 
-compile: $(IM_BINDING_DIR)/Makefile
+compile: $(IM_BINDING_DIR)/Makefile patch
 	cd $(IM_BINDING_DIR) && make
 
 install: compile
-	cd $(IM_BINDING_DIR) && make install
+	cd $(IM_BINDING_DIR) && $(MAKE) $@
 
+uninstall: $(IM_BINDING_DIR)/Makefile
+	cd $(IM_BINDING_DIR) && $(MAKE) $@
+
+archive-clean:
+	if [ -d $(IM_BINDING_DIR) ] ; then \
+	  cd $(IM_BINDING_DIR) && $(MAKE) clean ; \
+	fi
+# Remove any build products
 clean:: 
-	rm -rf $(IM_BUILD_DIR)
+	@rm -rf build/ImageMagick-*
 
-#clean:: 
-#	rm -f patch-makefile.pl.state
+relink: archive-clean compile
 
 .DUMMY:
 	true
