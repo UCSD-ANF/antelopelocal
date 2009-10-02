@@ -33,13 +33,14 @@ PATCHFILE=files/perlmagick-makefile-solaris-csw.diff
 $(IM_BINDING_DIR)/Makefile.PL: $(PATCHFILE) $(IM_BUILD_DIR)
 	patch -i $(PATCHFILE) $@
 
-$(IM_BINDING_DIR)/makefile: $(IM_BINDING_DIR)/Makefile.PL
+$(IM_BINDING_DIR)/Makefile: $(IM_BINDING_DIR)/Makefile.PL
 	cd $(IM_BINDING_DIR) && perl Makefile.PL
 
-compile: $(IM_BINDING_DIR)/makefile
+compile: $(IM_BINDING_DIR)/Makefile
 	cd $(IM_BINDING_DIR) && make
 
 install: compile
+	cd $(IM_BINDING_DIR) && make install
 
 clean:: 
 	rm -rf $(IM_BUILD_DIR)
