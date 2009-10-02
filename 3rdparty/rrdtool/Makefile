@@ -32,7 +32,7 @@ $(RRD_BUILD_DIR):
 	  gzip -dc ../$(RRD_SOURCE_ARCHIVE) | tar xvf -
 
 compile: configure
-	cd $(RRD_BUILD_DIR) && LDFLAGS=$(LDFLAGS) make
+	cd $(RRD_BUILD_DIR) && LDFLAGS=$(LDFLAGS) ${MAKE}
 
 configure: $(RRD_BUILD_DIR)/Makefile
 
@@ -41,6 +41,7 @@ $(RRD_BUILD_DIR)/Makefile: $(RRD_BUILD_DIR)
 
 # Several of the libraries shiped by OpenCSW on Solaris have libtool files distributed with them. These files break the build process on Solaris, so the fixlibtool.sh (borrowed from OpenCSW.org's GAR build tool) does a fixup on the makefiles and libtool files. Again solaris-specific, and CSW specific
 fixlibtool: configure
+	@echo "Fixing Libtool noise"
 	files/fixlibtool.sh $(RRD_BUILD_DIR)
 
 install: compile
