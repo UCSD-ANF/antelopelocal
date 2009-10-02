@@ -11,13 +11,6 @@ BUILD_ROOT=build
 PKG_BUILD_DIR=$(BUILD_ROOT)/$(PKG_BUILD_DIR_PREFIX)$(PKG_VERSION)
 PKG_BINDING_DIR=$(PKG_BUILD_DIR)
 
-# Variables needed for compilation process
-XMLPREFIX=/opt/csw
-XSLTPREFIX=/opt/csw
-
-PERLLIBS='-L/opt/csw/lib -lxml2 -lm'
-PERLINC='-I/opt/csw/include/libxml2'
-
 all: compile
 
 Include: install
