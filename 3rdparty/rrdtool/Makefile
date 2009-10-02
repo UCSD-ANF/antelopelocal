@@ -22,7 +22,10 @@ CFLAGS=""
 ## This is needed by rrdtool's configure unfortunately, and is very solaris-specific
 PKG_CONFIG_PATH=/usr/lib/pkgconfig:/opt/csw/lib/pkgconfig
 
-all: extract configure fixlibtool compile
+all: compile
+
+## RRDTOOL is needed by contrib, so we should have it install when the AntelopeMake "Include" target is requested
+Include : install
 
 extract: $(RRD_BUILD_DIR)
 
@@ -31,7 +34,7 @@ $(RRD_BUILD_DIR):
 	cd $(BUILD_ROOT) && \
 	  gzip -dc ../$(RRD_SOURCE_ARCHIVE) | tar xvf -
 
-compile: configure
+compile: configure fixlibtool
 	cd $(RRD_BUILD_DIR) && LDFLAGS=$(LDFLAGS) ${MAKE}
 
 configure: $(RRD_BUILD_DIR)/Makefile
@@ -44,11 +47,16 @@ fixlibtool: configure
 	@echo "Fixing Libtool noise"
 	files/fixlibtool.sh $(RRD_BUILD_DIR)
 
-install: compile
-	cd ${RRD_BUILD_DIR} && LDFLAGS=$(LDFLAGS) make install
+install : compile
+	cd ${RRD_BUILD_DIR} && LDFLAGS=$(LDFLAGS) $(MAKE) $@
 
-clean:: 
+clean : 
+	cd ${RRD_BUILD_DIR} && LDFLAGS=$(LDFLAGS) $(MAKE) $@
+
+distclean:
 	rm -rf $(RRD_BUILD_DIR)
+
+relink: clean compile
 
 #clean:: 
 #	rm -f patch-makefile.pl.state
