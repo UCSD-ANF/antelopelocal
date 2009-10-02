@@ -7,7 +7,8 @@ IM_VERSION=6.5.2
 IM_SUBREV=10
 IM_SOURCE_ARCHIVE=files/ImageMagick-$(IM_VERSION)-$(IM_SUBREV).tar.gz
 BUILD_ROOT=build
-IM_BUILD_DIR=$(BUILD_ROOT)/ImageMagick-$(IM_VERSION)-$(IM_SUBREV)
+IM_BUILD_DIR_PREFIX=ImageMagick-
+IM_BUILD_DIR=$(BUILD_ROOT)/$(IM_BUILD_DIR_PREFIX)$(IM_VERSION)-$(IM_SUBREV)
 IM_BINDING_DIR=$(IM_BUILD_DIR)/PerlMagick
 
 all: compile
@@ -46,7 +47,7 @@ archive-clean:
 	fi
 # Remove any build products
 clean:: 
-	@rm -rf build/ImageMagick-*
+	@rm -rf $(BUILD_ROOT)/$(IM_BUILD_DIR_PREFIX)*
 
 relink: archive-clean compile
 
