@@ -1,3 +1,3 @@
-DIRS=responses
+DIRS=responses pf_localmods
 
 include $(ANTELOPEMAKE)
