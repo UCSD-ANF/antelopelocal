@@ -19,7 +19,7 @@ elements &Arr{
         }
         PYTHONINCLUDE &Arr{
 # NOTE: SunOS requires CSWpython and CSWpython-devel packages from opencsw.org
-                SunOS /opt/csw/python2.6/include
+                SunOS /opt/csw/include/python2.6
                 Darwin /usr/include/python2.5
                 Linux
         }
