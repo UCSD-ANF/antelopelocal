@@ -7,6 +7,11 @@
 DIRS=adm data 3rdparty
 
 all install installMAN pf relink clean Include tags uninstall :: FORCED
+	if [ ! -d /opt/antelope/${antver}/local ]; then \
+	  for dirname in bin lib man data/pf; do \
+	    mkdir -p /opt/antelope/${antver}/local/$dirname; \
+	  done \
+	fi
 	@-DIRS="$(DIRS)" ;\
 	for i in $$DIRS ; do \
 	  printf "+    %-40s  %s\n" $$i "`date`" ; \
