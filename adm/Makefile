@@ -1,3 +1,3 @@
-DIRS=amakelocal
+DIRS=localmake
 
 include $(ANTELOPEMAKE)
