@@ -1,6 +1,6 @@
 # Instrument responses for Chaparral MET stations
 
-DATADIR=../local/data/instruments/sn/chaparral
+DATADIR= instruments/sn/chaparral
 DATA=\
 3655.pf \
 3656.pf \
@@ -14,3 +14,4 @@ DATA=\
 3670.pf
 
 include $(ANTELOPEMAKE)
+SUBDIR= /local
