@@ -284,7 +284,7 @@ macros	&Arr{
 			like '/Applications/MATLAB_R2009b.app'.
 		}
         Linux	
-        SunOS	/opt/matlab/matlab-2006b
+        SunOS	/opt/matlab/matlab-2007b
     }
     PHP_EXECUTABLE	&Arr{
         Darwin	
