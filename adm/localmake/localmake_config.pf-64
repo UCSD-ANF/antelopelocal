@@ -359,7 +359,7 @@ macros	&Arr{
 		     'Fink' python interpreter is being used. 
 		}
         Linux	
-        SunOS	/usr/bin/python2.4
+        SunOS	/usr/bin/sparcv9/python2.4
     }
     XMOTIFINCLUDE	&Arr{
         Darwin	
@@ -402,4 +402,4 @@ macros	&Arr{
     }
 }
 output_file	antelopemake.local
-pf_revision_time	1295910963
+pf_revision_time	1295980001
