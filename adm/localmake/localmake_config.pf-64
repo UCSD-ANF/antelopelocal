@@ -190,7 +190,7 @@ capabilities	&Arr{
 }
 dest	&antelope/local/include
 extra_rules	&Literal{
-.SUFFIXES: .SUFFIXES .py .pyc .xpy .xphp .wwwphp
+.SUFFIXES: .SUFFIXES .xpy .xphp .wwwphp
 
 % : %.xpy $(ANTELOPE)/local/data/templates/xpy
 	$(RM) $@
@@ -205,21 +205,6 @@ extra_rules	&Literal{
 .wwwphp.php : $(ANTELOPE)/local/data/templates/wwwphp
 	$(RM) $@
 	cat $(ANTELOPE)/local/data/templates/wwwphp $*.wwwphp > $@
-<<<<<<< Updated upstream
-
-.py.pyc :
-	$(RM) $@
-	$(PYTHON_EXECUTABLE) -c 'import py_compile; py_compile.compile("$<")'
-
-install :: 
-	@mkdir -p $(ANTELOPE)/local/bin
-	@mkdir -p $(ANTELOPE)/local/man
-	@mkdir -p $(ANTELOPE)/local/lib
-	@mkdir -p $(ANTELOPE)/local/static
-	@mkdir -p $(ANTELOPE)/local/data
-	@mkdir -p $(ANTELOPE)/local/include
-=======
->>>>>>> Stashed changes
 }
 header	&Literal{
 # DO NOT MODIFY -- Automatically generated file -- DO NOT MODIFY
@@ -429,8 +414,4 @@ macros	&Arr{
     }
 }
 output_file	antelopemake.local
-<<<<<<< Updated upstream
-pf_revision_time	1303425395
-=======
 pf_revision_time	1312218770
->>>>>>> Stashed changes
