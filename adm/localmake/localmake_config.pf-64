@@ -10,9 +10,9 @@ capabilities	&Arr{
                     Gary Pavlis use this library. 
 		}
         enable	&Arr{
-            Darwin	1
-            Linux	yes
-            SunOS	0
+            Darwin	no
+            Linux	no
+            SunOS	1
         }
         required_macros	&Tbl{
             BOOSTINCLUDE
@@ -39,7 +39,7 @@ capabilities	&Arr{
 			of the Antelope Toolbox for Matlab. 
 		}
         enable	&Arr{
-            Darwin	1
+            Darwin	no
             Linux	no
             SunOS	1
         }
@@ -51,6 +51,31 @@ capabilities	&Arr{
 			$failure_msg = "Couldn't find Matlab directory '$MATLAB' " .
 				       "implied by currently configured value of MATLAB macro";
 			-d "$MATLAB"
+			}
+        }
+    }
+    perl_DBI	&Arr{
+        Description	Perl DBI database-connectivity CPAN module
+        Detail	&Literal{
+			The 'perl_DBI' capability supports usage of the Perl-CPAN 'DBI' Perl 
+			module available from http://www.cpan.org.
+			Depending on your local system configuration and administration policies, 
+			you may be able to install this package by typing 
+			"perl -MCPAN -e 'install DBI'" on the command-line, making sure to use 
+			the Antelope perl interpreter when doing so. 
+		}
+        enable	&Arr{
+            Darwin	no
+            Linux	no
+            SunOS	0
+        }
+        required_macros	&Tbl{
+        }
+        tests	&Tbl{
+            &Literal{
+			$failure_msg = "Perl 'DBI' module is not available";
+			$success_msg = "Perl 'DBI' module is available";
+			eval { use DBI; 1; }
 			}
         }
     }
@@ -98,7 +123,7 @@ capabilities	&Arr{
 			tools get installed (e.g. dbwfserver(1) and orbtopo(1)). 
 		}
         enable	&Arr{
-            Darwin	1
+            Darwin	no
             Linux	no
             SunOS	0
         }
@@ -120,6 +145,81 @@ capabilities	&Arr{
 			}
         }
     }
+    python_amqplib	&Arr{
+        Description	AMQP interface library for Python
+        Detail	&Literal{
+			The 'python_amqplib' capability supports usage of the 'py-amqplib' Python 
+			client library available from http://code.google.com/p/py-amqplib/.
+			Depending on your local system configuration and administration policies, 
+			you may be able to install this package by typing "easy_install amqplib" on 
+			the command-line. 
+		}
+        enable	&Arr{
+            Darwin	no
+            Linux	no
+            SunOS	0
+        }
+        required_macros	&Tbl{
+        }
+        tests	&Tbl{
+            &Literal{
+			$failure_msg = "Python 'amqplib' is not available within " .
+				       "Python interpreter '$PYTHON_EXECUTABLE'";
+			$success_msg = "Python 'amqplib' is available within '$PYTHON_EXECUTABLE'";
+			-f "$PYTHON_EXECUTABLE" && -x "$PYTHON_EXECUTABLE" && system( "$PYTHON_EXECUTABLE -c 'import amqplib'" ) == 0
+			}
+        }
+    }
+    python_matplotlib	&Arr{
+        Description	Matlab-emulation library for Python
+        Detail	&Literal{
+			The 'python_matplotlib' capability supports usage of the 'matplotlib' Python 
+			client library available from http://matplotlib.sourceforge.net/.
+			Depending on your local system configuration and administration policies, 
+			you may be able to install this package by typing "easy_install matplotlib" on 
+			the command-line. 
+		}
+        enable	&Arr{
+            Darwin	no
+            Linux	no
+            SunOS	0
+        }
+        required_macros	&Tbl{
+        }
+        tests	&Tbl{
+            &Literal{
+			$failure_msg = "Python 'matplotlib' is not available within " .
+				       "Python interpreter '$PYTHON_EXECUTABLE'";
+			$success_msg = "Python 'matplotlib' is available within '$PYTHON_EXECUTABLE'";
+			-f "$PYTHON_EXECUTABLE" && -x "$PYTHON_EXECUTABLE" && system( "$PYTHON_EXECUTABLE -c 'import matplotlib'" ) == 0
+			}
+        }
+    }
+    python_pygraphviz	&Arr{
+        Description	Graphviz graph-analysis library for Python
+        Detail	&Literal{
+			The 'python_pygraphviz' capability supports usage of the 'pygraphviz' Python 
+			client library available from http://networkx.lanl.gov/pygraphviz.
+			Depending on your local system configuration and administration policies, 
+			you may be able to install this package by typing "easy_install pygraphviz" on 
+			the command-line. 
+		}
+        enable	&Arr{
+            Darwin	no
+            Linux	no
+            SunOS	0
+        }
+        required_macros	&Tbl{
+        }
+        tests	&Tbl{
+            &Literal{
+			$failure_msg = "Python 'pygraphviz' is not available within " .
+				       "Python interpreter '$PYTHON_EXECUTABLE'";
+			$success_msg = "Python 'pygraphviz' is available within '$PYTHON_EXECUTABLE'";
+			-f "$PYTHON_EXECUTABLE" && -x "$PYTHON_EXECUTABLE" && system( "$PYTHON_EXECUTABLE -c 'import pygraphviz'" ) == 0
+			}
+        }
+    }
     vtk	&Arr{
         Description	Visualization Tool Kit
         Detail	&Literal{
@@ -130,7 +230,7 @@ capabilities	&Arr{
                 tool kit.
 		}
         enable	&Arr{
-            Darwin	1
+            Darwin	no
             Linux	no
             SunOS	0
         }
@@ -166,8 +266,8 @@ capabilities	&Arr{
 			libseisw. 
 		}
         enable	&Arr{
-            Darwin	1
-            Linux	yes
+            Darwin	no
+            Linux	no
             SunOS	1
         }
         required_macros	&Tbl{
@@ -215,7 +315,7 @@ header	&Literal{
 }
 macros	&Arr{
     BOOSTINCLUDE	&Arr{
-        Darwin	/opt/boost
+        Darwin	
         Description	Location of boost include files
         Detail	&Literal{
 			The BOOSTINCLUDE macro defines the location of 
@@ -227,11 +327,11 @@ macros	&Arr{
                         should normally point to the top of the directory
                         tree where boost is installed. 
 		}
-        Linux	/opt/boost
-        SunOS	/opt/boost
+        Linux	
+        SunOS	/opt/csw/include
     }
     BOOSTLIB	&Arr{
-        Darwin	/opt/boost/stage/lib
+        Darwin	
         Description	Location of boost compiled libraries.
         Detail	&Literal{
 			The BOOSTLIB macro defines the location of 
@@ -243,11 +343,11 @@ macros	&Arr{
                         the specifice -l reference to which library 
                         component you want to utilize.
 		}
-        Linux	/opt/boost/stage/lib
-        SunOS	/opt/boost/stage/lib
+        Linux	
+        SunOS	/opt/csw/lib
     }
     MATLAB	&Arr{
-        Darwin	/Applications/MATLAB_R2010a.app
+        Darwin	
         Description	Top-level directory of Matlab installation
         Detail	&Literal{
 			The MATLAB macro specifies the top-level directory
@@ -335,18 +435,18 @@ macros	&Arr{
         SunOS	
     }
     VTKINCLUDE	&Arr{
-        Darwin	/Users/pavlis/Paraview/VTK
+        Darwin	
         Description	Directory for Visualization Tool Kit include files
         Detail	&Literal{
                     The VTKINCLUDE macro defines the top level directory for 
                     include files for compiling an application with the
                     Visualization Tool Kit (VTK). 
 		}
-        Linux	/opt/vtk
-        SunOS	/opt/vtk
+        Linux	
+        SunOS	
     }
     VTKLIB	&Arr{
-        Darwin	/Users/pavlis/projects/Paraview-bin/bin
+        Darwin	
         Description	Library directory for Visualization Tool Kit
         Detail	&Literal{
                     The VTKLIB macro defines the base location for libraries
@@ -354,14 +454,14 @@ macros	&Arr{
                     Individual makefiles need to select the correct list of 
                     the rather large number of libraries.
 		}
-        Linux	/opt/vtk
-        SunOS	/opt/vtk
+        Linux	
+        SunOS	
     }
     VTKLIBS	&Arr{
         SunOS	
     }
     VTKROOT	&Arr{
-        Darwin	/Users/pavlis/Paraview/VTK
+        Darwin	
         Description	Top of VTK package directory chain.
         Detail	&Literal{
                     The VTKROOT macro specifies the top of the rather large 
@@ -370,11 +470,11 @@ macros	&Arr{
                     subdirectories similar to the way ANTELOPE defines the top
                     of the directory chain for ANTELOPE.
 		}
-        Linux	/opt/VTK
-        SunOS	/opt/VTK
+        Linux	
+        SunOS	
     }
     XMOTIFINCLUDE	&Arr{
-        Darwin	/usr/OpenMotif/include
+        Darwin	
         Description	Location of X-Motif header files
         Detail	&Literal{
 			The XMOTIFINCLUDE macro specifies the location 
@@ -395,7 +495,7 @@ macros	&Arr{
         SunOS	/usr/include
     }
     XMOTIFLIB	&Arr{
-        Darwin	/usr/OpenMotif/lib
+        Darwin	
         Description	Location of X-Motif link libraries
         Detail	&Literal{
 			The XMOTIFLIB macro specifies the location 
@@ -414,4 +514,4 @@ macros	&Arr{
     }
 }
 output_file	antelopemake.local
-pf_revision_time	1312218770
+pf_revision_time	1317751718

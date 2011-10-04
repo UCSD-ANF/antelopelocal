@@ -1,5 +1,36 @@
 antelope	&env(ANTELOPE)
 capabilities	&Arr{
+    boost	&Arr{
+        Description	Boost C++ library
+        Detail	&Literal{
+                    The boost library contains a large set of utility C++
+                    objects that are well maintained and seem to commonly
+                    be used as a final testbed before adoption into the 
+                    standard.  Several packages under development by
+                    Gary Pavlis use this library. 
+		}
+        enable	&Arr{
+            Darwin	no
+            Linux	no
+            SunOS	1
+        }
+        required_macros	&Tbl{
+            BOOSTINCLUDE
+            BOOSTLIB
+        }
+        tests	&Tbl{
+            &Literal{
+			$failure_msg = "Could not find header-file directory '$BOOSTINCLUDE' " .
+				       "implied by currently configured value of BOOSTINCLUDE  macro";
+			-d "$BOOSTINCLUDE/boost"
+			}
+            &Literal{
+			$failure_msg = "Couldn't find library-file directory '$BOOSTLIB ' " . 
+				       "implied by currently configured value of BOOSTLIB macro";
+			-d "$BOOSTLIB"
+                    }
+        }
+    }
     matlab	&Arr{
         Description	Antelope Matlab Interface and Matlab-based Antelope tools
         Detail	&Literal{
@@ -19,20 +50,7 @@ capabilities	&Arr{
             &Literal{
 			$failure_msg = "Couldn't find Matlab directory '$MATLAB' " .
 				       "implied by currently configured value of MATLAB macro";
-			$success_msg = "Matlab directory '$MATLAB' exists";
 			-d "$MATLAB"
-			}
-            &Literal{
-			$failure_msg = "Couldn't find Matlab launch script '$MATLAB/bin/matlab' " .
-				       "implied by currently configured value of MATLAB macro";
-			$success_msg = "Matlab launch script '$MATLAB/bin/matlab' is executable";
-			-x "$MATLAB/bin/matlab"
-			}
-            &Literal{
-			$failure_msg = "MATLAB environment variable is defined as '$ENV{MATLAB}' which " .
-				       "doesn't match MATLAB macro setting of '$MATLAB'";
-			$success_msg = "MATLAB environment variable is not defined or matches macro setting";
-			! defined( $ENV{'MATLAB'} ) || $ENV{'MATLAB'} eq "$MATLAB"
 			}
         }
     }
@@ -49,7 +67,7 @@ capabilities	&Arr{
         enable	&Arr{
             Darwin	no
             Linux	no
-            SunOS	1
+            SunOS	0
         }
         required_macros	&Tbl{
         }
@@ -73,7 +91,7 @@ capabilities	&Arr{
 			and webdbe(3H)). 
 		}
         enable	&Arr{
-            Darwin	no
+            Darwin	0
             Linux	no
             SunOS	1
         }
@@ -85,13 +103,11 @@ capabilities	&Arr{
             &Literal{
 			$failure_msg = "Couldn't find header-file directory '$PHP_INC/Zend' " . 
 				       "implied by currently configured value of PHP_INC macro";
-			$success_msg = "Found header-file directory '$PHP_INC'";
 			-d "$PHP_INC/Zend"
 			}
             &Literal{
 			$failure_msg = "File '$PHP_EXECUTABLE' specified by the " .
 				       "PHP_EXECUTABLE macro is not present or not executable'";
-			$success_msg = "Found php executable '$PHP_EXECUTABLE'";
 			-f "$PHP_EXECUTABLE" && -x "$PHP_EXECUTABLE"
 			}
         }
@@ -120,13 +136,11 @@ capabilities	&Arr{
 			$failure_msg = "Couldn't find header-file '$PYTHONINCLUDE/Python.h' " .
 				       "implied by currently configured value of PYTHONINCLUDE " .
 				       "macro";
-			$success_msg = "Found header file '$PYTHONINCLUDE/Python.h'";
 			-e "$PYTHONINCLUDE/Python.h"
 			}
             &Literal{
 			$failure_msg = "File '$PYTHON_EXECUTABLE' specified by the " .
 				       "PYTHON_EXECUTABLE macro is not present or not executable'";
-			$success_msg = "Found python executable '$PYTHON_EXECUTABLE'";
 			-f "$PYTHON_EXECUTABLE" && -x "$PYTHON_EXECUTABLE"
 			}
         }
@@ -206,6 +220,43 @@ capabilities	&Arr{
 			}
         }
     }
+    vtk	&Arr{
+        Description	Visualization Tool Kit
+        Detail	&Literal{
+                The Visualization Took Kit (VTK) is a large open-source
+                library for 3D visualization.  The paraview program 
+                supported on teragrid uses this library.  Pavlis has
+                developed some applications to interface to this 
+                tool kit.
+		}
+        enable	&Arr{
+            Darwin	no
+            Linux	no
+            SunOS	0
+        }
+        required_macros	&Tbl{
+            VTKROOT
+            VTKINCLUDE
+            VTKLIBS
+        }
+        tests	&Tbl{
+            &Literal{
+			$failure_msg = "Couldn't find top level directory '$VTKROOT ' " . 
+				       "implied by currently configured value of VTKROOT macro";
+			-d "$VTKROOT"
+                    }
+            &Literal{
+			$failure_msg = "Could not find header-file directory '$VTKINCLUDE' " .
+				       "implied by currently configured value of VTKINCLUDE  macro";
+			-d "$VTKINCLUDE"
+			}
+            &Literal{
+			$failure_msg = "Couldn't find library-file directory '$VTKLIBS ' " . 
+				       "implied by currently configured value of VTKLIBS macro";
+			-d "$VTKLIBS"
+                        }
+        }
+    }
     xmotif	&Arr{
         Description	X/Motif Graphics toolkit links
         Detail	&Literal{
@@ -216,7 +267,7 @@ capabilities	&Arr{
 		}
         enable	&Arr{
             Darwin	no
-            Linux	yes
+            Linux	no
             SunOS	1
         }
         required_macros	&Tbl{
@@ -227,13 +278,11 @@ capabilities	&Arr{
             &Literal{
 			$failure_msg = "Couldn't find header-file directory '$XMOTIFINCLUDE/Xm' " . 
 				       "implied by currently configured value of XMOTIFINCLUDE macro";
-			$success_msg = "Found header-file directory for X-Motif";
 			-d "$XMOTIFINCLUDE/Xm"
 			}
             &Literal{
 			$failure_msg = "Couldn't find library-file directory '$XMOTIFLIB' " . 
 				       "implied by currently configured value of XMOTIFLIB macro";
-			$success_msg = "Found library-file directory for X-motif";
 			-d "$XMOTIFLIB"
 			}
         }
@@ -241,7 +290,7 @@ capabilities	&Arr{
 }
 dest	&antelope/local/include
 extra_rules	&Literal{
-.SUFFIXES: .SUFFIXES .py .pyc .xpy .xphp .wwwphp
+.SUFFIXES: .SUFFIXES .xpy .xphp .wwwphp
 
 % : %.xpy $(ANTELOPE)/local/data/templates/xpy
 	$(RM) $@
@@ -256,18 +305,6 @@ extra_rules	&Literal{
 .wwwphp.php : $(ANTELOPE)/local/data/templates/wwwphp
 	$(RM) $@
 	cat $(ANTELOPE)/local/data/templates/wwwphp $*.wwwphp > $@
-
-.py.pyc :
-	$(RM) $@
-	$(PYTHON_EXECUTABLE) -c 'import py_compile; py_compile.compile("$<")'
-
-install :: 
-	@mkdir -p $(ANTELOPE)/local/bin
-	@mkdir -p $(ANTELOPE)/local/man
-	@mkdir -p $(ANTELOPE)/local/lib
-	@mkdir -p $(ANTELOPE)/local/static
-	@mkdir -p $(ANTELOPE)/local/data
-	@mkdir -p $(ANTELOPE)/local/include
 }
 header	&Literal{
 # DO NOT MODIFY -- Automatically generated file -- DO NOT MODIFY
@@ -277,6 +314,38 @@ header	&Literal{
 # See the localmake_config(1)  man page for further details. 
 }
 macros	&Arr{
+    BOOSTINCLUDE	&Arr{
+        Darwin	
+        Description	Location of boost include files
+        Detail	&Literal{
+			The BOOSTINCLUDE macro defines the location of 
+                        the top level directory for boost is installed
+                        on this system.  Since different components of 
+                        boost are separated into subdirectories below the
+                        root the manual always suggest subdirectory includes
+                        like <boost/boost/thread.hpp>.  Hence the macro
+                        should normally point to the top of the directory
+                        tree where boost is installed. 
+		}
+        Linux	
+        SunOS	/opt/csw/include
+    }
+    BOOSTLIB	&Arr{
+        Darwin	
+        Description	Location of boost compiled libraries.
+        Detail	&Literal{
+			The BOOSTLIB macro defines the location of 
+                        the compiled library components of boost.
+                        Most of boost is actually templates found
+                        with the BOOSTINCLUE macro, but there are useful
+                        things in the compiled portion.  This sets up
+                        the path only, but an application must give
+                        the specifice -l reference to which library 
+                        component you want to utilize.
+		}
+        Linux	
+        SunOS	/opt/csw/lib
+    }
     MATLAB	&Arr{
         Darwin	
         Description	Top-level directory of Matlab installation
@@ -328,7 +397,7 @@ macros	&Arr{
         SunOS	/opt/csw/php5/include/php
     }
     PYTHONINCLUDE	&Arr{
-        Darwin	
+        Darwin	/usr/include/python2.6
         Description	Location of Python header files
         Detail	&Literal{
 		     The PYTHONINCLUDE macro specifies the location of 
@@ -349,7 +418,7 @@ macros	&Arr{
         SunOS	/opt/csw/include/python2.6
     }
     PYTHON_EXECUTABLE	&Arr{
-        Darwin	
+        Darwin	/usr/bin/python
         Description	Absolute pathname of Python interpreter
         Detail	&Literal{
 		     The PYTHON_EXECUTABLE macro specifies the absolute 
@@ -364,6 +433,45 @@ macros	&Arr{
 		}
         Linux	
         SunOS	/opt/csw/bin/python
+    }
+    VTKINCLUDE	&Arr{
+        Darwin	
+        Description	Directory for Visualization Tool Kit include files
+        Detail	&Literal{
+                    The VTKINCLUDE macro defines the top level directory for 
+                    include files for compiling an application with the
+                    Visualization Tool Kit (VTK). 
+		}
+        Linux	
+        SunOS	
+    }
+    VTKLIB	&Arr{
+        Darwin	
+        Description	Library directory for Visualization Tool Kit
+        Detail	&Literal{
+                    The VTKLIB macro defines the base location for libraries
+                    that are linked to use the Visualization Tool Kit package.
+                    Individual makefiles need to select the correct list of 
+                    the rather large number of libraries.
+		}
+        Linux	
+        SunOS	
+    }
+    VTKLIBS	&Arr{
+        SunOS	
+    }
+    VTKROOT	&Arr{
+        Darwin	
+        Description	Top of VTK package directory chain.
+        Detail	&Literal{
+                    The VTKROOT macro specifies the top of the rather large 
+                    chain of directories that define the VTK package.  It
+                    is used mostly as a convenience to define the location of
+                    subdirectories similar to the way ANTELOPE defines the top
+                    of the directory chain for ANTELOPE.
+		}
+        Linux	
+        SunOS	
     }
     XMOTIFINCLUDE	&Arr{
         Darwin	
@@ -406,4 +514,4 @@ macros	&Arr{
     }
 }
 output_file	antelopemake.local
-pf_revision_time	1303425395
+pf_revision_time	1317751569
