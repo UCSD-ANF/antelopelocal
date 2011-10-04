@@ -46,7 +46,7 @@ $(IM_BINDING_DIR)/Makefile.PL: $(IM_BUILD_DIR)
 
 $(IM_BINDING_DIR)/Makefile: $(IM_BINDING_DIR)/Makefile.PL
 #	cd $(IM_BINDING_DIR) && perl Makefile.PL CCFLAGS="$(CFLAGS)" INC="$(INCLUDE_PATH)"
-	cd $(IM_BINDING_DIR) && perl Makefile.PL CCFLAGS="$(CFLAGS)" LDDLFLAGS="$(LDFLAGS)" INC="$(INCLUDE_PATH)"
+	cd $(IM_BINDING_DIR) && perl Makefile.PL CCFLAGS="$(CFLAGS)" LDDLFLAGS="$(LDFLAGS) $(LD_OPTIONS)" INC="$(INCLUDE_PATH)"
 
 compile: $(IM_BINDING_DIR)/Makefile
 	cd $(IM_BINDING_DIR) && make
