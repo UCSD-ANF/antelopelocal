@@ -39,7 +39,7 @@ header	&Literal{
 macros	&Arr{
     BOOSTINCLUDE	
     BOOSTLIB	
-    MATLAB	/opt/matlab/matlab-2007b
+    MATLAB	/opt/matlab/matlab-2006b
     PHP_EXECUTABLE	/opt/csw/bin/php
     PHP_INC	/opt/csw/php5/include/php
     PYTHONINCLUDE	/opt/csw/include/python2.6
