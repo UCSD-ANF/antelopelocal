@@ -2,7 +2,7 @@ capabilities	&Arr{
     boost	1
     matlab	1
     perl_DBI	0
-    php	0
+    php	1
     python	1
     python_amqplib	0
     python_matplotlib	1
@@ -14,8 +14,8 @@ macros	&Arr{
     BOOSTINCLUDE	/opt/local/include
     BOOSTLIB	/opt/local/lib
     MATLAB	/Applications/MATLAB_R2011b.app
-    PHP_EXECUTABLE	
-    PHP_INC	
+    PHP_EXECUTABLE	/usr/bin/php
+    PHP_INC	/usr/include/php
     PYTHONINCLUDE	/opt/antelope/python2.7.2-64/include/python2.7
     PYTHON_EXECUTABLE	/opt/antelope/5.2-64/bin/python
     VTKINCLUDE	
