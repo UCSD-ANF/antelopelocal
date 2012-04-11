@@ -43,7 +43,7 @@ macros	&Arr{
     PHP_EXECUTABLE	
     PHP_INC	
     PYTHONINCLUDE	/opt/antelope/python2.7.2-64
-    PYTHON_EXECUTABLE	/opt/antelope/bin/python
+    PYTHON_EXECUTABLE	/opt/antelope/5.2-64/bin/python
     VTKINCLUDE	
     VTKLIB	
     VTKROOT	
