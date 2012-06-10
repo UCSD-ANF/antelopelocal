@@ -1,3 +1,3 @@
-DIRS=localmake
+DIRS= skel localmake
 
 include $(ANTELOPEMAKE)
