@@ -13,7 +13,7 @@ capabilities	&Arr{
 macros	&Arr{
     BOOSTINCLUDE	/opt/local/include
     BOOSTLIB	/opt/local/lib
-    MATLAB	/Applications/MATLAB_R2012a.app
+    MATLAB	/Applications/MATLAB_R2012b.app
     PHP_EXECUTABLE	/usr/bin/php
     PHP_INC	/usr/include/php
     PYTHONINCLUDE	/opt/antelope/python2.7.2-64/include/python2.7
