@@ -1,3 +1,0 @@
-PF = orbserver_names.pf
-
-include $(ANTELOPEMAKE)
